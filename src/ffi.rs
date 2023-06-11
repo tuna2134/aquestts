@@ -17,7 +17,7 @@ extern "C" {
     fn AquesTalk_Synthe_Utf8(
         pParam: *const AqtkVoice,
         char: *const c_char,
-        mut size: *c_int,
+        size: *mut c_int,
     ) -> *const c_uchar;
 
     fn AquesTalk_FreeWave(wav: *const c_uchar) -> c_void;
