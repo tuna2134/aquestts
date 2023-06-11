@@ -31,10 +31,11 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
         .await
         .ok_or("Songbird Voice client is not initialized.")?;
     let call = manager.get(guild_id).expect("call not found");
+    println!("text: {}", text);
     let result = ffi::synthe(text).unwrap();
     let source = songbird::input::Input::new(
-        true, songbird::input::Reader::from_memory(result),
-        songbird::input::Codec::Pcm, songbird::input::Container::Raw,
+        false, songbird::input::Reader::from(result),
+        songbird::input::Codec::FloatPcm, songbird::input::Container::Raw,
         None,
     );
     call.lock().await.play_source(source);
