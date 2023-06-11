@@ -41,6 +41,6 @@ pub fn synthe(text: String) -> Result<Vec<*mut u8>> {
         return Err("error".into());
     }
     unsafe { AquesTalk_FreeWave(wave) };
-    let wave = unsafe { std::vec::Vec::from_raw_parts(&mut wave, size as usize size as usize) };
+    let wave = unsafe { std::vec::Vec::from_raw_parts(&mut wave, size as usize, size as usize) };
     Ok(wave)
 }
