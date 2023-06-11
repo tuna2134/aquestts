@@ -24,6 +24,18 @@ async fn join(ctx: Context<'_>) -> Result<(), Error> {
     Ok(())
 }
 
+// resampling 16ghz to 48ghz
+fn resampling(wave: Vec<u8>) -> Vec<u8> {
+    let mut resampled = Vec::new();
+    for i in 0..wave.len() / 2 {
+        resampled.push(wave[i * 2]);
+        resampled.push(wave[i * 2 + 1]);
+        resampled.push(0);
+        resampled.push(0);
+    }
+    resampled
+}
+
 #[poise::command(slash_command)]
 async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
     let guild_id = ctx.guild_id().expect("guild only");
@@ -33,12 +45,14 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
     let call = manager.get(guild_id).expect("call not found");
     println!("text: {}", text);
     let result = ffi::synthe(text).unwrap();
+    let result = resampling(result);
     let source = songbird::input::Input::new(
         false, songbird::input::Reader::from(result),
-        songbird::input::Codec::FloatPcm, songbird::input::Container::Raw,
+        songbird::input::Codec::Pcm, songbird::input::Container::Raw,
         None,
     );
     call.lock().await.play_source(source);
+    ctx.say("ok").await?;
     Ok(())
 }
 

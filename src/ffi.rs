@@ -37,6 +37,9 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
     let size = 0;
     let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), &size as *const i32) };
     println!("size: {}", size);
+    if size == 105 {
+        return Err("error".into());
+    }
     unsafe { AquesTalk_FreeWave(wave) };
     let wave = unsafe { std::slice::from_raw_parts(wave, 48000) };
     Ok(wave.to_vec())
