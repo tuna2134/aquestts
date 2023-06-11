@@ -34,7 +34,7 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
         fsc: 100,
     };
     let text = std::ffi::CString::new(text)?;
-    let mut size: i32 = 0;
+    let size: i32 = 0;
     let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), size as *mut i32) };
     println!("size: {}", size);
     if size == 105 {
