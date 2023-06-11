@@ -35,12 +35,12 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
     };
     let text = std::ffi::CString::new(text)?;
     let mut size = 0;
-    let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), &mut size) };
+    let mut wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), &mut size) };
     println!("size: {}", size);
     if size == 105 {
         return Err("error".into());
     }
     unsafe { AquesTalk_FreeWave(wave) };
-    let wave = unsafe { std::vec::Vec::from_raw_parts(wave, size.try_into().unwrap() as usize, size.try_into().unwrap() as usize) };
+    let wave = unsafe { std::vec::Vec::from_raw_parts(&mut wave, size.try_into().unwrap() as usize, size.try_into().unwrap() as usize) };
     Ok(wave.to_vec())
 }
