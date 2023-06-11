@@ -17,7 +17,7 @@ extern "C" {
     fn AquesTalk_Synthe_Utf8(
         pParam: *const AqtkVoice,
         char: *const c_char,
-        size: *const c_int,
+        size: *mut c_int,
     ) -> *const c_uchar;
 
     fn AquesTalk_FreeWave(wav: *const c_uchar) -> c_void;
@@ -35,7 +35,7 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
     };
     let text = std::ffi::CString::new(text)?;
     let size: i32 = 0;
-    let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), size as *const i32) };
+    let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), &size as *mut i32) };
     println!("size: {}", size);
     if size == 105 {
         return Err("error".into());
