@@ -18,7 +18,7 @@ extern "C" {
         pParam: *const AqtkVoice,
         char: *const c_char,
         size: *mut c_int,
-    ) -> *mut c_uchar;
+    ) -> *c_uchar;
 
     fn AquesTalk_FreeWave(wav: *const c_uchar) -> c_void;
 }
