@@ -25,7 +25,7 @@ async fn join(ctx: Context<'_>) -> Result<(), Error> {
 }
 
 // resampling 16ghz to 48ghz
-fn resampling(wave: Vec<u8>) -> Vec<u8> {
+fn resampling(wave: Vec<*mut u8>) -> Vec<u8> {
     let mut resampled = Vec::new();
     for i in 0..wave.len() / 2 {
         resampled.push(wave[i * 2]);
