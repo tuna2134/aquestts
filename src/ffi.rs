@@ -18,12 +18,12 @@ extern "C" {
         pParam: *const AqtkVoice,
         char: *const c_char,
         size: *mut c_int,
-    ) -> *c_uchar;
+    ) -> *mut c_uchar;
 
     fn AquesTalk_FreeWave(wav: *const c_uchar) -> c_void;
 }
 
-pub fn synthe(text: String) -> Result<Vec<u8>> {
+pub fn synthe(text: String) -> Result<Vec<mut u8>> {
     let voice = AqtkVoice {
         bas: 0,
         spd: 100,
