@@ -41,6 +41,6 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
         return Err("error".into());
     }
     unsafe { AquesTalk_FreeWave(wave) };
-    let wave = unsafe { std::slice::from_raw_parts(wave, 48000) };
+    let wave = unsafe { std::slice::from_raw_parts(wave, size.try_into().unwrap())) };
     Ok(wave.to_vec())
 }
