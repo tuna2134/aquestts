@@ -6,3 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenv = "0.15.0"
+aquestalk = { path = "../aquestalk" }
+poise = "0.5.5"
+songbird = { version = "0.3.2", features = ["serenity"] }
+tokio = { version = "1.28.2", features = ["full"] }
