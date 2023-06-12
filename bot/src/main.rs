@@ -1,4 +1,3 @@
-mod ffi;
 use poise::serenity_prelude as serenity;
 use poise::{Framework, FrameworkOptions};
 use songbird::SerenityInit;
@@ -52,7 +51,7 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
         .ok_or("Songbird Voice client is not initialized.")?;
     let call = manager.get(guild_id).expect("call not found");
     println!("text: {}", text);
-    let result = ffi::synthe(text).unwrap();
+    let result = aquestalk::synthe(text).unwrap();
     let result = resampling(result);
     let source = songbird::input::Input::new(
         false,
