@@ -18,12 +18,12 @@ extern "C" {
         pParam: *const AqtkVoice,
         char: *const c_char,
         size: *mut c_int,
-    ) -> *const c_uchar;
+    ) -> *mut c_uchar;
 
     fn AquesTalk_FreeWave(wav: *const c_uchar) -> c_void;
 }
 
-pub fn synthe(text: String) -> Result<Vec<*mut u8>> {
+pub fn synthe(text: String) -> Result<Vec<u8>> {
     let voice = AqtkVoice {
         bas: 0,
         spd: 100,
@@ -41,6 +41,7 @@ pub fn synthe(text: String) -> Result<Vec<*mut u8>> {
         return Err("error".into());
     }
     unsafe { AquesTalk_FreeWave(wave) };
-    let wave = unsafe { std::vec::Vec::from_raw_parts(&mut wave, size as usize, size as usize) };
+    let wav = unsafe { std::vec::Vec::from_raw_parts(&mut wave, size as usize, size as usize) }; 
+    let wav_two: Vec<u8> = unsafe { std::mem::transmute(wav) };
     Ok(wave)
 }
