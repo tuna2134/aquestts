@@ -20,7 +20,7 @@ async fn join(ctx: Context<'_>) -> Result<(), Error> {
         .await
         .expect("Songbird Voice client is not initialized.")
         .clone();
-    let (call, _) = manager.join(guild_id, channel_id).await;
+    let (_call, _) = manager.join(guild_id, channel_id).await;
     Ok(())
 }
 
