@@ -1,7 +1,7 @@
 use reqwest::blocking::Client;
-use zip::ZipArchive;
 use std::env;
 use std::fs;
+use zip::ZipArchive;
 
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
@@ -14,15 +14,23 @@ fn main() {
 
     let file = fs::File::open(format!("{}/aqtk10_lnx_110.zip", out_dir)).unwrap();
     let mut archive = ZipArchive::new(file).unwrap();
-    archive.extract(format!("{}/aqtk10_lnx_110", out_dir)).unwrap();
+    archive
+        .extract(format!("{}/aqtk10_lnx_110", out_dir))
+        .unwrap();
 
     fs::copy(
-        format!("{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1", out_dir),
+        format!(
+            "{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1",
+            out_dir
+        ),
         format!("{}/libAquesTalk10.so", out_dir),
     )
     .unwrap();
     fs::copy(
-        format!("{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1", out_dir),
+        format!(
+            "{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1",
+            out_dir
+        ),
         format!("{}/libAquesTalk10.so.1", out_dir),
     )
     .unwrap();

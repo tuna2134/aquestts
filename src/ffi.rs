@@ -41,7 +41,7 @@ pub fn synthe(text: String) -> Result<Vec<u8>> {
         return Err("error".into());
     }
     // unsafe { AquesTalk_FreeWave(wave) };
-    let wav: Vec<u8> = unsafe { std::vec::Vec::from_raw_parts(wave, size as usize, size as usize) }; 
+    let wav: Vec<u8> = unsafe { std::vec::Vec::from_raw_parts(wave, size as usize, size as usize) };
     println!("Free!");
     Ok(wav)
 }

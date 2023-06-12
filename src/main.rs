@@ -47,8 +47,10 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
     let result = ffi::synthe(text).unwrap();
     let result = resampling(result);
     let source = songbird::input::Input::new(
-        false, songbird::input::Reader::from(result),
-        songbird::input::Codec::Pcm, songbird::input::Container::Raw,
+        false,
+        songbird::input::Reader::from(result),
+        songbird::input::Codec::Pcm,
+        songbird::input::Container::Raw,
         None,
     );
     call.lock().await.play_source(source);
@@ -68,9 +70,7 @@ async fn main() {
         })
         .token(std::env::var("DISCORD_TOKEN").expect("missing DISCORD_TOKEN"))
         .intents(serenity::GatewayIntents::non_privileged())
-        .client_settings(|client| {
-            client.register_songbird()
-        })
+        .client_settings(|client| client.register_songbird())
         .setup(|ctx, _ready, framework| {
             Box::pin(async move {
                 poise::builtins::register_globally(ctx, &framework.options().commands).await?;
