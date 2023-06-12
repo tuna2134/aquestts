@@ -1,4 +1,4 @@
-use libc::{c_char, c_int, c_uchar, c_void};
+use libc::{c_char, c_int, c_uchar};
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 

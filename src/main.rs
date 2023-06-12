@@ -2,11 +2,13 @@ mod ffi;
 use poise::serenity_prelude as serenity;
 use poise::{Framework, FrameworkOptions};
 use songbird::SerenityInit;
+use std::io::Write;
 
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
+/// Join to voice channel
 #[poise::command(slash_command)]
 async fn join(ctx: Context<'_>) -> Result<(), Error> {
     let guild_id = ctx.guild_id().expect("guild only");
@@ -21,21 +23,35 @@ async fn join(ctx: Context<'_>) -> Result<(), Error> {
         .expect("Songbird Voice client is not initialized.")
         .clone();
     let (_call, _) = manager.join(guild_id, channel_id).await;
+    ctx.say("Ok").await?;
     Ok(())
 }
 
-// resampling 16ghz to 48ghz
+/// resapmle 16ghz to 48ghz(using ac-ffmpeg)
 fn resampling(wave: Vec<u8>) -> Vec<u8> {
-    let mut resampled = Vec::new();
-    for i in 0..wave.len() / 2 {
-        resampled.push(wave[i * 2]);
-        resampled.push(wave[i * 2 + 1]);
-        resampled.push(0);
-        resampled.push(0);
-    }
-    resampled
+    // save to stdin pipe
+    // ffmpeg -i pipe:0 -ar 48000 -f s16le -
+    let mut cmd = std::process::Command::new("ffmpeg")
+        .args(&[
+            "-i",
+            "pipe:0",
+            "-ar",
+            "48000",
+            "-f",
+            "s16le",
+            "-",
+        ])
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .spawn()
+        .unwrap();
+    let child_stdin = cmd.stdin.as_mut().unwrap();
+    child_stdin.write_all(wave.as_ref()).unwrap();
+    let output = cmd.wait_with_output().unwrap();
+    output.stdout
 }
 
+// Play text to speech
 #[poise::command(slash_command)]
 async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
     let guild_id = ctx.guild_id().expect("guild only");
@@ -54,7 +70,7 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
         None,
     );
     call.lock().await.play_source(source);
-    ctx.say("ok").await?;
+    ctx.say("Played").await?;
     Ok(())
 }
 
