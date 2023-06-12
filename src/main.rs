@@ -32,15 +32,7 @@ fn resampling(wave: Vec<u8>) -> Vec<u8> {
     // save to stdin pipe
     // ffmpeg -i pipe:0 -ar 48000 -f s16le -
     let mut cmd = std::process::Command::new("ffmpeg")
-        .args(&[
-            "-i",
-            "pipe:0",
-            "-ar",
-            "48000",
-            "-f",
-            "s16le",
-            "-",
-        ])
+        .args(&["-i", "pipe:0", "-ar", "48000", "-f", "s16le", "-"])
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
         .spawn()
