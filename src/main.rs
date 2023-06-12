@@ -59,6 +59,7 @@ async fn play(ctx: Context<'_>, text: String) -> Result<(), Error> {
 #[tokio::main]
 async fn main() {
     dotenv::dotenv().ok();
+    ffi::synthe("てすと").unwrap();
     let framework = Framework::builder()
         .options(FrameworkOptions {
             commands: vec![join(), play()],
