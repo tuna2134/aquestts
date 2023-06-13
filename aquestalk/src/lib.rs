@@ -58,9 +58,9 @@ impl AquesTalk {
         let key = std::ffi::CString::new(key)?;
         let result = unsafe { AquesTalk_SetDevKey(key) };
         if result == 0 {
-            Ok()
+            Ok(())
         } else {
-            Err("License is invalid")
+            Err("License is invalid".into())
         }
     }
 }
