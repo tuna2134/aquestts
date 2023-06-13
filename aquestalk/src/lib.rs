@@ -19,6 +19,50 @@ extern "C" {
         char: *const c_char,
         size: *mut c_int,
     ) -> *mut c_uchar;
+
+    fn AquesTalk_SetDevKey(
+        key: *const c_char,
+    ) -> const c_int;
+}
+
+pub struct AquesTalk;
+
+impl AquesTalk {
+    pub fn new() -> Self {
+        Self {}
+    }
+
+    pub fn synthe(text: String) -> Result<Vec<u8>> {
+        let voice = AqtkVoice {
+            bas: 0,
+            spd: 100,
+            vol: 100,
+            pit: 100,
+            acc: 100,
+            lmd: 100,
+            fsc: 100,
+        };
+        let text = std::ffi::CString::new(text)?;
+        let mut size = 0;
+        let wave = unsafe { AquesTalk_Synthe_Utf8(&voice, text.as_ptr(), &mut size) };
+        println!("size: {}", size);
+        if size == 105 {
+            return Err("error".into());
+        }
+        let wav: Vec<u8> = unsafe { std::vec::Vec::from_raw_parts(wave, size as usize, size as usize) };
+        println!("Free!");
+        Ok(wav)
+    }
+
+    pub fn set_devkey(&self, key: String) -> Result<()> {
+        let key = std::ffi::CString::new(key)?;
+        let result = unsafe { AquesTalk_SetDevKey(key) };
+        if result == 0 {
+            Ok()
+        } else {
+            Err("License is invalid")
+        }
+    }
 }
 
 pub fn synthe(text: String) -> Result<Vec<u8>> {
