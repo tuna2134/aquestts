@@ -22,7 +22,7 @@ extern "C" {
 
     fn AquesTalk_SetDevKey(
         key: *const c_char,
-    ) -> const c_int;
+    ) -> *const c_int;
 }
 
 pub struct AquesTalk;
