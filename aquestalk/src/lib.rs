@@ -56,7 +56,7 @@ impl AquesTalk {
 
     pub fn set_devkey(&self, key: String) -> Result<()> {
         let key = std::ffi::CString::new(key)?;
-        let result = unsafe { AquesTalk_SetDevKey(key) };
+        let result = unsafe { AquesTalk_SetDevKey(key.as_ptr()) };
         if result == 0 {
             Ok(())
         } else {
