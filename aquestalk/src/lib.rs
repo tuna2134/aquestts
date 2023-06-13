@@ -93,6 +93,6 @@ mod tests {
 
     #[test]
     fn it_works() {
-        synthe("こんにちは".to_string()).unwrap()
+        synthe("こんにちは".to_string()).unwrap();
     }
 }
