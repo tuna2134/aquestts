@@ -32,7 +32,7 @@ impl AquesTalk {
         Self {}
     }
 
-    pub fn synthe(text: String) -> Result<Vec<u8>> {
+    pub fn synthe(&self, text: String) -> Result<Vec<u8>> {
         let voice = AqtkVoice {
             bas: 0,
             spd: 100,
