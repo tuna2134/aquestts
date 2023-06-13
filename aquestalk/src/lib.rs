@@ -94,5 +94,7 @@ mod tests {
     #[test]
     fn it_works() {
         synthe("こんにちは".to_string()).unwrap();
+        let aqtk = AquesTalk::new();
+        aqtk.set_devkey("test".to_string());
     }
 }
