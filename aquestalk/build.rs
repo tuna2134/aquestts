@@ -18,18 +18,12 @@ fn main() {
     archive
         .extract(format!("{}/aqtk10_lnx_110", out_dir))
         .unwrap();
-
-    fs::copy(
-        format!(
+    Command::new("ln")
+        .arg("-sf")
+        .arg(format!(
             "{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1",
             out_dir
-        ),
-        format!("{}/libAquesTalk10.so.1", out_dir),
-    )
-    .unwrap();
-    let output = Command::new("ln")
-        .arg("-sf")
-        .arg(format!("{}/libAquesTalk10.so.1", out_dir))
+        ))
         .arg(format!("{}/libAquesTalk10.so", out_dir))
         .output()
         .expect("Failed to create symbolic link");
