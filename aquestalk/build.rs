@@ -18,6 +18,7 @@ fn main() {
         .extract(format!("{}/aqtk10_lnx_110", out_dir))
         .unwrap();
 
+    /*
     fs::copy(
         format!(
             "{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1",
@@ -25,6 +26,7 @@ fn main() {
         ),
         format!("{}/libAquesTalk10.so", out_dir),
     )
+    */
     .unwrap();
     fs::copy(
         format!(
@@ -36,7 +38,7 @@ fn main() {
     .unwrap();
 
     println!("cargo:rustc-link-search=native={}", out_dir);
-    println!("cargo:rustc-link-lib=AquesTalk10");
+    println!("cargo:rustc-link-lib=dylib=AquesTalk10");
     println!("cargo:rustc-link-lib=stdc++");
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rustc-env=LD_LIBRARY_PATH={}", out_dir);
