@@ -26,8 +26,8 @@ fn main() {
         ),
         format!("{}/libAquesTalk10.so", out_dir),
     )
-    */
     .unwrap();
+    */
     fs::copy(
         format!(
             "{}/aqtk10_lnx_110/aqtk10_lnx/lib64/libAquesTalk10.so.1.1",
