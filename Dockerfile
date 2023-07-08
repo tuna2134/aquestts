@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS downloaded
+FROM debian:bookworm-slim AS downloader
 
 WORKDIR /src/downloader
 
