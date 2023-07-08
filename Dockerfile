@@ -4,6 +4,7 @@ WORKDIR /src/downloader
 
 RUN apt-get update && apt-get install -y jq wget
 RUN export VERSION=$(curl https://api.github.com/repos/tuna2134/aquestts/releases | jq .[0].name)
+RUN echo $VERSION
 RUN wget --trust-server-names https://github.com/tuna2134/aquestts/releases/download/${VERSION}/bot
 
 FROM debian:bookworm-slim
